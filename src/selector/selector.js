@@ -1,1 +1,1 @@
-export const  getDisplay = store => store.display;
+export const  getDisplay = store => store.UxData;

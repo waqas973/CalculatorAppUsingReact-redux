@@ -5,7 +5,8 @@ const initialState = {
     display: '0',
     accumulated: '0',
     prevOp : '',
-    history : '0' 
+    history : '0',
+    UxData : '0'
 }
 
 export  const rootReducer = (state = initialState , action)=>{
@@ -17,6 +18,7 @@ export  const rootReducer = (state = initialState , action)=>{
                 display: state.display == '0' || state.prevOp === "operator" ? updateDisplay.input
                   : state.display + updateDisplay.input,
                 prevOp: updateDisplay.operation,
+                UxData : (state.UxData == '0')  ?  updateDisplay.input : ( state.UxData != '0' && state.history == "0") ? state.UxData + updateDisplay.input : state.UxData  + updateDisplay.input
               }
             }
           case "ADD":{
@@ -28,7 +30,10 @@ export  const rootReducer = (state = initialState , action)=>{
                 history: state.history == '0' && state.accumulated == "0" ? state.display + " + "
                   : state.accumulated != "0" ? state.accumulated + " + "
                     : history() + state.display + " + ",
-                prevOp: "operator"
+                prevOp: "operator",
+                UxData : state.history == '0' && state.accumulated == "0" ? state.UxData + "+"
+                : state.accumulated != "0" ? state.UxData + "+"
+                  :  state.UxData + "+"
               }
           }
           case "SUBSTRACT": {
@@ -40,7 +45,10 @@ export  const rootReducer = (state = initialState , action)=>{
               history: state.history == '0' && state.accumulated == "0" ? state.display + " - "
                 : state.accumulated != "0" ? state.accumulated + " - "
                   : history() + state.display + " - ",
-              prevOp: "operator"
+              prevOp: "operator",
+              UxData : state.history == '0' && state.accumulated == "0" ? state.UxData + "-"
+              : state.accumulated != "0" ? state.UxData + "-"
+                :  state.UxData + "-"
             }
           }
           case "MULTIPLY": {
@@ -52,7 +60,10 @@ export  const rootReducer = (state = initialState , action)=>{
               history: state.history == '0' && state.accumulated == "0" ? state.display + " * "
                 : state.accumulated != "0" ? state.accumulated + " * "
                   : history() + state.display + " * ",
-              prevOp: "operator"
+              prevOp: "operator",
+              UxData : state.history == '0' && state.accumulated == "0" ? state.UxData + "*"
+              : state.accumulated != "0" ? state.UxData + "*"
+                :  state.UxData + "*"
             }
           }
       
@@ -66,7 +77,10 @@ export  const rootReducer = (state = initialState , action)=>{
               history: state.history == '0' && state.accumulated == "0" ? state.display + " / "
                 : state.accumulated != "0" ? state.accumulated + " / "
                   : history() + state.display + " / ",
-              prevOp: "operator"
+              prevOp: "operator",
+              UxData : state.history == '0' && state.accumulated == "0" ? state.UxData + "/"
+              : state.accumulated != "0" ? state.UxData + "/"
+                :  state.UxData + "/"
             }
           }
           // clear resets state
@@ -75,7 +89,7 @@ export  const rootReducer = (state = initialState , action)=>{
             return {
                 ...state,
                 
-               display :  state.display.slice(0,state.display.length - 1),
+               UxData :  state.UxData.slice(0,state.UxData.length - 1),
                
             }
           }
@@ -85,23 +99,29 @@ export  const rootReducer = (state = initialState , action)=>{
               display: '0',
               prevOp: "clear",
               accumulated: 0,
-              history: "0"
+              history: "0",
+              UxData : "0"
             }
           }
           case "EQUAL": {
-            let states = state.history + state.display;
+            let states = state.UxData;
            let maths = math.evaluate(states);
             if (state.prevOp === "equal") {
               return {
                 ...state
               }
-            } else {
+            } else if(state.UxData == ''){
+              return{
+                ...state
+              }
+            }else {
               return {
                 ...state,
                 history: math.round(maths, 4).toString(),
                 display: math.round(maths,4).toString(),
                 accumulated: maths.toString(),
                 prevOp: "equal",
+                UxData:math.round(maths,4).toString()
               }
             }
           }
