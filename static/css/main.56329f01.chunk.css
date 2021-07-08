@@ -1,0 +1,2 @@
+body{display:flex;justify-content:center;align-items:center;height:100vh;box-sizing:border-box;margin:0;padding:0}.containers{border:1px solid #000;width:300px;border-radius:5px;background-color:#000;text-align:center}.items{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(60px,auto)}button{font-size:1.1rem}input[type=text]{height:75px;width:290px;border:none;outline:none;background-color:#000;color:#fff;font-size:1.8rem}.clear{grid-column:1/3;grid-row:1}.equal{grid-column:2/5;grid-row:5}
+/*# sourceMappingURL=main.56329f01.chunk.css.map */
